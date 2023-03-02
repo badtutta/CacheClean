@@ -43,7 +43,7 @@
                         
 
 #>
- 
+Â 
 [CmdLetBinding()]
 Param (
     [Parameter(Mandatory=$false)] [switch]$ProfileSize = $false,
@@ -128,8 +128,11 @@ If ($MSTeams -eq $true){
 #######################################
 If ($OneDrive -eq $true){
 	# Launching OneDrive with /reset
-	$arg1 = "/reset"
-	& $env:LOCALAPPDATA\"Microsoft\OneDrive\OneDrive.exe" $arg1 | Out-Null
+	Remove-Item -Path "HKCU:\SOFTWARE\Microsoft\OneDrive" -Recurse -Force | Out-Null
+	& $env:ProgramFiles\"Microsoft OneDrive\OneDrive.exe" /reset | Out-Null
+	Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\OneDrive\Settings\" -Recurse -Force | Out-Null
+	Start-Sleep 5
+	& $env:ProgramFiles\"Microsoft OneDrive\OneDrive.exe"
 }
 
 
