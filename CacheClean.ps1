@@ -167,7 +167,13 @@ If ($Outlook -eq $true){
 # Clean PowerBI cache
 #######################################
 If ($PowerBI -eq $true){
-	Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\Power BI Desktop\cache" -Recurse -Force
-	
+	# Stop Power BI Desktop if it is running
+	Stop-Process -ProcessName "PBIDesktop" -Force -ErrorAction SilentlyContinue
 
+	# Delete the contents of the cache folders
+	Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\Power BI Desktop\AnalysisServicesWorkspaces"\* -Recurse -Force
+	Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\Power BI Desktop\Cache"\* -Recurse -Force
+	Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\Power BI Desktop\ExtensionCache"\* -Recurse -Force
+	Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\Power BI Desktop\FoldedArtifactsCache"\* -Recurse -Force
+	Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\Power BI Desktop\LuciaCache"\* -Recurse -Force
 }
