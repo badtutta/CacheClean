@@ -1,3 +1,8 @@
+**TO USE**
+Put shortcuts of choice into launch folder and make sure CacheClean.ps1 file is in the SAME folder
+
+
+
 # CacheClean
 
                Name:    CacheClean.ps1                                                               
