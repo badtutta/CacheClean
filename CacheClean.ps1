@@ -145,13 +145,13 @@ If ($MSTeams -eq $true){
 #######################################
 If ($OneDrive -eq $true){
 	# Launching OneDrive with /reset
-	Get-Process "OneDrive" | kill -Force -ErrorAction SilentlyContinue | Out-Null
-	Remove-Item -Path "HKCU:\SOFTWARE\Microsoft\OneDrive" -Recurse -Force | Out-Null
-	Remove-Item -Path "$env:LOCALAPPDATA\OneDrive" -Recurse -Force | Out-Null
-	& $env:ProgramFiles"\Microsoft OneDrive\OneDrive.exe" /reset | Out-Null
-	Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\OneDrive\Settings\" -Recurse -Force | Out-Null
+	Get-Process "OneDrive" -ErrorAction SilentlyContinue | kill -Force -ErrorAction SilentlyContinue | Out-Null
+	Remove-Item -Path "HKCU:\SOFTWARE\Microsoft\OneDrive" -Recurse -Force -ErrorAction SilentlyContinue | Out-Null
+	Remove-Item -Path "env:LOCALAPPDATA\OneDrive" -Recurse -Force -ErrorAction SilentlyContinue | Out-Null
+	& $env:LOCALAPPDATA\"Microsoft\OneDrive\OneDrive.exe" /reset | Out-Null
+	Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\OneDrive\Settings\" -Recurse -Force -ErrorAction SilentlyContinue | Out-Null
 	Start-Sleep 5
-	& $env:ProgramFiles\"Microsoft OneDrive\OneDrive.exe"
+	& $env:LOCALAPPDATA\"Microsoft\OneDrive\OneDrive.exe"
 }
 
 
