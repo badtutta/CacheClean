@@ -12,7 +12,7 @@ Put shortcuts of choice into launch folder and make sure CacheClean.ps1 file is 
             Version:    1.0.x                                                                        
                                                                                                   
             Created:    01.18.2023                                                                 
-           Modified:    03.07.2023                                                                  
+           Modified:    06.29.2023                                                                  
                                                                                                   
                                                                                                   
                                                                                                   
