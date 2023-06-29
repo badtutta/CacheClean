@@ -49,7 +49,7 @@ Param (
     [Parameter(Mandatory=$false)] [switch]$ProfileSize = $false,
 	[Parameter(Mandatory=$false)] [switch]$Clean = $false,
 	[Parameter(Mandatory=$false)] [switch]$Options = $false,
-	[Parameter(Mandatory=$false)] [switch]$MSTeams = $fals,
+	[Parameter(Mandatory=$false)] [switch]$MSTeams = $false,
 	[Parameter(Mandatory=$false)] [switch]$OneDrive = $false,
 	[Parameter(Mandatory=$false)] [switch]$PowerBI = $false,
 	[Parameter(Mandatory=$false)] [switch]$Outlook = $false
@@ -57,21 +57,6 @@ Param (
 )
 
 
-# .Net methods for hiding/showing the console in the background
-Add-Type -Name Window -Namespace Console -MemberDefinition '
-[DllImport("Kernel32.dll")]
-public static extern IntPtr GetConsoleWindow();
-
-[DllImport("user32.dll")]
-public static extern bool ShowWindow(IntPtr hWnd, Int32 nCmdShow);
-'
-function Hide-Console
-{
-    $consolePtr = [Console.Window]::GetConsoleWindow()
-    #0 hide
-    [Console.Window]::ShowWindow($consolePtr, 0)
-}
-Hide-Console
 
 ###############################
 # Determine profile sizes in MB
@@ -112,31 +97,25 @@ If ($Clean -eq $true){
 # Clean Microsoft Teams cache
 #######################################
 If ($MSTeams -eq $true){
-	Write-Host "Stopping Microsoft Teams in order to clear cache."
+	#Write-Host "Stopping Microsoft Teams in order to clear cache."
 	try{
-		Get-Process -ProcessName Teams | Stop-Process -Force
+		Get-Process -ProcessName Teams -ErrorAction SilentlyContinue | Stop-Process -ErrorAction SilentlyContinue -Force
 		Start-Sleep -Seconds 5
-		Write-Host "Microsoft Teams has been successfully stopped."
+	#	Write-Host "Microsoft Teams has been successfully stopped."
 	}
 	catch{
 		echo $_
 	}
 	# The cache is now being cleared.
-	Write-Host "Clearing Microsoft Teams cache."
+	#Write-Host "Clearing Microsoft Teams cache."
 	try{
-		Remove-Item -Path $env:APPDATA\"Microsoft\teams\blob_storage" -Recurse -Force
-		Remove-Item -Path $env:APPDATA\"Microsoft\teams\databases" -Recurse -Force
-		Remove-Item -Path $env:APPDATA\"Microsoft\teams\Cache" -Recurse -Force
-		Remove-Item -Path $env:APPDATA\"Microsoft\teams\GPUcache" -Recurse -Force
-		Remove-Item -Path $env:APPDATA\"Microsoft\teams\IndexedDB" -Recurse -Force
-		Remove-Item -Path $env:APPDATA\"Microsoft\teams\Local Storage" -Recurse -Force
-		Remove-Item -Path $env:APPDATA\"Microsoft\teams\tmp" -Recurse -Force 
+		Remove-Item -Path $env:APPDATA\"Microsoft\Teams" -ErrorAction SilentlyContinue -Recurse -Force
 	}
 	catch{
 		echo $_
 	}
 	 
-	write-host "The Microsoft Teams cache has been successfully cleared."
+	#write-host "The Microsoft Teams cache has been successfully cleared."
 }
 	
 
@@ -159,25 +138,26 @@ If ($OneDrive -eq $true){
 # Clean Outlook cache
 #######################################
 If ($Outlook -eq $true){
-	Write-Host "Stopping Microsoft Outlook in order to clear cache."
+	#Write-Host "Stopping Microsoft Outlook in order to clear cache."
 	try{
-		Get-Process -ProcessName Outlook | Stop-Process -Force
+		Get-Process -ProcessName Outlook | Stop-Process -ErrorAction SilentlyContinue -Force
 		Start-Sleep -Seconds 5
-		Write-Host "Microsoft Outlook has been successfully stopped."
+	#	Write-Host "Microsoft Outlook has been successfully stopped."
 	}
 	catch{
 		echo $_
 	}
 	# The cache is now being cleared.
-	Write-Host "Clearing Microsoft Outlook cache."
+	#Write-Host "Clearing Microsoft Outlook cache."
 	try{
-		Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\Windows\INetCache\Content.Outlook\*" -Recurse -Force
+		Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\Outlook" -ErrorAction SilentlyContinue -Recurse -Force
+		Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\Windows\INetCache\Content.Outlook\*" -ErrorAction SilentlyContinue -Recurse -Force
 	}
 	catch{
 		echo $_
 	}
 	 
-	write-host "The Microsoft Outlook cache has been successfully cleared."
+	#write-host "The Microsoft Outlook cache has been successfully cleared."
 }
 
 
@@ -190,45 +170,44 @@ If ($PowerBI -eq $true){
 	Stop-Process -ProcessName "PBIDesktop" -Force -ErrorAction SilentlyContinue
 
 	# Delete the contents of the cache folders
-	"$env:LOCALAPPDATA\Microsoft\Power BI Desktop\AnalysisServicesWorkspaces"
-	Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\Power BI Desktop\AnalysisServicesWorkspaces"\* -Recurse -Force
-	Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\Power BI Desktop\Cache"\* -Recurse -Force
-	Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\Power BI Desktop\ExtensionCache"\* -Recurse -Force
-	Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\Power BI Desktop\FoldedArtifactsCache"\* -Recurse -Force
-	Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\Power BI Desktop\LuciaCache"\* -Recurse -Force
+	Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\Power BI Desktop\AnalysisServicesWorkspaces"\* -ErrorAction SilentlyContinue -Recurse -Force
+	Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\Power BI Desktop\Cache"\* -ErrorAction SilentlyContinue -Recurse -Force
+	Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\Power BI Desktop\ExtensionCache"\* -ErrorAction SilentlyContinue -Recurse -Force
+	Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\Power BI Desktop\FoldedArtifactsCache"\* -ErrorAction SilentlyContinue -Recurse -Force
+	Remove-Item -Path $env:LOCALAPPDATA\"Microsoft\Power BI Desktop\LuciaCache"\* -ErrorAction SilentlyContinue -Recurse -Force
 
 }
 # SIG # Begin signature block
 # MIIF0wYJKoZIhvcNAQcCoIIFxDCCBcACAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUmakCKIOEWF+QDixzGXtL7/Gy
-# dhagggNMMIIDSDCCAjCgAwIBAgIQWgJUYzsrk7dAXVlfryMOoDANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUf+/XtUmMMM4eA6BXzQbW2frD
+# p6WgggNMMIIDSDCCAjCgAwIBAgIQcXHqnYdQMbxAV5XYyArlADANBgkqhkiG9w0B
 # AQsFADA8MTowOAYDVQQDDDFOYXV0aWx1cyBWaXJ0dWFsIERlc2t0b3AgQ29kZSBT
-# aWduaW5nIENlcnRpZmljYXRlMB4XDTIzMDUyMjIwMTQzMloXDTI0MDUyMjIwMzQz
-# MlowPDE6MDgGA1UEAwwxTmF1dGlsdXMgVmlydHVhbCBEZXNrdG9wIENvZGUgU2ln
+# aWduaW5nIENlcnRpZmljYXRlMB4XDTIzMDUyMjE4MjU1N1oXDTI0MDUyMjE4NDU1
+# N1owPDE6MDgGA1UEAwwxTmF1dGlsdXMgVmlydHVhbCBEZXNrdG9wIENvZGUgU2ln
 # bmluZyBDZXJ0aWZpY2F0ZTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEB
-# APzLCLETl7GZkzTgUNFM4ynsPnyQXRIMimenwWCLdquBjGXWrsyIL2zYnw3Tppx5
-# zJLtJM8kYC7vR4ycW4bZBNBE+QweorRzQSI5afJ9Gmr7R0DOWAw/zm/2XhhZGLnb
-# MHb3Wnh+Ll4HVdhKLzsXb7D2rEKdUGC5iLeH5LSztYqXzE4yb05kNL9zQNOGuFNC
-# R82+Fyz+tEex24JVZSSCH6xVnHMn5x9osiuVqHsegLNo752UVhUFz8ajfAiP6Owt
-# hc7M8fCNtRwpI8s4eZBbt0OeeqjYWiWQMOYBrP9LDI9z23PYBFDmkVsJ+NbYVsq2
-# KC+zPETo/XGWoX4cnyWbYpECAwEAAaNGMEQwDgYDVR0PAQH/BAQDAgeAMBMGA1Ud
-# JQQMMAoGCCsGAQUFBwMDMB0GA1UdDgQWBBTK5onkx2bgvViKK5enaFSXc7QkEjAN
-# BgkqhkiG9w0BAQsFAAOCAQEAK5RAgEWJpqb+QUzfodcAzrfvMN+tq0qGvrE2wfhn
-# jh5klpMyPPJDdUukS/R5O0Vm6NrXsvSgwK1rwT+qq1rJwoTXDAy+s7HmOlk4TyQ/
-# ShnGm4UG2/j4NIW8ouTxNVwWRLFV/nQSLf2/PvyqI+zvjeFm86ABcdBZY0Yqewmm
-# D7ifDVzBX/3vVd5XJeT6IOpOHr6fOHv8bxgikEUgLwviFPwEswP7SGzvTAuqipIU
-# UxBf096sM50lzal8MUydmDhEXIjm8SVxeLx89RnWAx1hfjiJaGgm5qwfPkkvIxoo
-# wPKkLzXdKc8fZDYSk9oS3XqiF5yKTbA6aajqtwXfZAI08jGCAfEwggHtAgEBMFAw
+# AKH0I9g2NPsiqgP2Gmi9ifMe9GRSQOTVj5nnp/zwb0AbzJF5qpIOX9IeIC0/gmUz
+# dj+WwkGL4lONzVKIPNTKPbBPDzRnBK9wJazJjSYDbRh4Yd3HbMCo7W2e5NMII0li
+# WkPDJioVHw8Zh7BdN+0i0yOLb3A6Jr62CP3wHOn/LIYcXK6HA6jS2WUHjGoBr2rW
+# lYAdumrrTtL1KbBYYjIjAdkrAgX/XU5dzVBosMkaWQXJTrdoJzAPe9erYItowKQS
+# 9iiCSlT6K0bbCpxt9EDg1GpLN7yqH4Ut/Q2ZMxr5rc21r80gqoCX7+gi49flOO5X
+# saf16boIv0CtPysQZWXPCZkCAwEAAaNGMEQwDgYDVR0PAQH/BAQDAgeAMBMGA1Ud
+# JQQMMAoGCCsGAQUFBwMDMB0GA1UdDgQWBBSXn4hbjGNiJmu5Zveef2+DUTM4VTAN
+# BgkqhkiG9w0BAQsFAAOCAQEAUrepMOc58NSqFtzV8o4cpxn9L0jjXpTdibg0zRtj
+# av5pIZgGtrH063rWHlstLluuF9OPIfAlVOK5cAIj21pOY4ecqVMaF/QslhZ2ahiL
+# N71kT9JpcOPMWewwfPfl6OBh+Dnofj4WdkdIF+Y05g19dMjF2og93w3cnjVFzH1Y
+# RSRK7R44EZ3QMISFOHvJSSv9xsf0jLItYNqxDFf9ySFMpOss/ZiZEsCoHhP4kMv0
+# EVgIwbTp8JQd0Q/ffohufLS1fiD7HhVBPMlhAHhnNbBFjUtxSFGifW/vqt8oNk2I
+# 9CySPYfoD5A0x0beVyDrVlNamgKhp/jk9FQZ5FJSPt00HTGCAfEwggHtAgEBMFAw
 # PDE6MDgGA1UEAwwxTmF1dGlsdXMgVmlydHVhbCBEZXNrdG9wIENvZGUgU2lnbmlu
-# ZyBDZXJ0aWZpY2F0ZQIQWgJUYzsrk7dAXVlfryMOoDAJBgUrDgMCGgUAoHgwGAYK
+# ZyBDZXJ0aWZpY2F0ZQIQcXHqnYdQMbxAV5XYyArlADAJBgUrDgMCGgUAoHgwGAYK
 # KwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIB
 # BDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0BCQQxFgQU
-# FwZ6rGEdO4nF7+yrqvFue4sRGZ0wDQYJKoZIhvcNAQEBBQAEggEA2OhkKpfJxj4J
-# EMNml/7tuDcnxsXwAF7DgrVfxhHReEMM86ulQhniQb+KvNs474H1IEAq/KJfe6zR
-# VW+GWlVDr1i9xPGBF+WaV0DUGdiywSVHwm03QMRHKjkG/T4HgvEW27TvtJFjTdUu
-# aqWYbsQ1tenb1YnuvAHfTYQpDO1oYWj3eoKE9/Ssc+0e4j53hl++mDxFJQ4fZeQR
-# dTn9qy6azy/RU9pYUup/9XciUFgDC09mPTNAuTIMuJ5+RQqOzNq3jXA+5jx7K7lj
-# XBwnqak3kOadeyu0WlMcjlB5Uv8QxtlHk7pdWbWNsv7cGRUDPb90kBqQ8wSPc37V
-# 4+4dBZs4wA==
+# omv0h1ETJ2bDuBbUkEMy0mrJVPcwDQYJKoZIhvcNAQEBBQAEggEAULf/jm9EvYOH
+# qa/Tg9XW7m16W0TypJSgLj8mpPfOOgghw/uZRzWBW1MyrIXzzuiYzcF+weZAoKWi
+# XfjKw48iCU3Ft0el6sH1QEMEQdinO2rZqZdHl2jzuYHXZIJCDx6WwVgoG8IncA39
+# lNIcLt7Rg0oKgkylucqrTJisPpZsWsINftkLquo3kBhIQxO7dl2xuXrl+4Gm6cLm
+# BAkG/c0Ifu8CGRyHjY9CcmA7dSErHN6qWeAoPJEpcmlW7ai+vX+LJBqS+IknpEBO
+# RDo3iORGUeiiHY7RfsCtkiWkRnwZVg7ZILBy5+pJr9YI9i8Obgw4ZDXXDZSp0RJG
+# gV0mnzhc7g==
 # SIG # End signature block
