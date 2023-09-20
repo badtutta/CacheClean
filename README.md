@@ -12,7 +12,7 @@ Put shortcuts of choice into launch folder and make sure CacheClean.ps1 file is 
             Version:    1.0.2                                                                        
                                                                                                   
             Created:    01.18.2023                                                                 
-           Modified:    09.18.2023                                                                  
+           Modified:    09.20.2023                                                                  
                                                                                                   
                                                                                                   
                                                                                                   
@@ -21,7 +21,7 @@ Put shortcuts of choice into launch folder and make sure CacheClean.ps1 file is 
           This script can determine the size of the user's profile and be used to perform a disk cleanup 
           to free up space via CleanMgr.exe, as well as, cleaning of the following cache...
 		  
-		        -  PowerBI
+	                -  PowerBI
 			-  Teams
 			-  Outlook
 			-  OneDrive
@@ -30,10 +30,21 @@ Put shortcuts of choice into launch folder and make sure CacheClean.ps1 file is 
           
           Parameters:
     
-                  -ProfileSize = Determines disk space used by the user's profile
+          	  -ProfileSize = Determines disk space used by the user's profile
 		  -Clean = Cleans with default options
-		  -Options = (used with -Clean) Opens GUI and allows selection of more options to clean
+		  -Options = Opens GUI and allows selection of more options to clean
 		  -MSTeams = Cleans Microsoft Teams cache
 		  -OneDrive = Cleans Microsoft OneDrive cache
 		  -PowerBI = Cleans Microsoft PowerBI cache
 		  -Outlook = Cleans Microsoft Outlook cache
+		  
+		  
+          
+
+          Version Log:
+
+          .1 - Initial script
+		  .2 - Added relaunch of apps after cache cleaning
+                        
+
+#>
