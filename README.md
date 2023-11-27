@@ -3,40 +3,44 @@ Put shortcuts of choice into launch folder and make sure CacheClean.ps1 file is 
 
 
 
-# CacheClean
+<#
+
 
                Name:    CacheClean.ps1                                                               
                                                                                                    
           Author(s):    Navy Flank Speed MCS                                                                                                                                                 
                                                                                                        
-            Version:    1.0.2                                                                        
+            Version:    1.0.3                                                                        
                                                                                                   
             Created:    01.18.2023                                                                 
-           Modified:    09.20.2023                                                                  
+           Modified:    11.27.2023                                                                  
                                                                                                   
                                                                                                   
                                                                                                   
           Info:                                                                                   
                                                                                                   
           This script can determine the size of the user's profile and be used to perform a disk cleanup 
-          to free up space via CleanMgr.exe, as well as, cleaning of the following cache...
+          to free up space via CleanMgr.exe, as well as, backup of Microsoft Edge favorites to an html file.
+		  It will all perform the cleaning of the following caches...
 		  
-	                -  PowerBI
+		    -  PowerBI
 			-  Teams
 			-  Outlook
 			-  OneDrive
+
           
 
           
           Parameters:
     
-          	  -ProfileSize = Determines disk space used by the user's profile
+          -ProfileSize = Determines disk space used by the user's profile
 		  -Clean = Cleans with default options
 		  -Options = Opens GUI and allows selection of more options to clean
 		  -MSTeams = Cleans Microsoft Teams cache
 		  -OneDrive = Cleans Microsoft OneDrive cache
 		  -PowerBI = Cleans Microsoft PowerBI cache
 		  -Outlook = Cleans Microsoft Outlook cache
+		  -Edge = Backs up Edge Favorites to location of user's choosing
 		  
 		  
           
@@ -45,6 +49,7 @@ Put shortcuts of choice into launch folder and make sure CacheClean.ps1 file is 
 
           .1 - Initial script
 		  .2 - Added relaunch of apps after cache cleaning
+		  .3 - Added Edge Favorites backup ability
                         
 
 #>
