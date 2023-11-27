@@ -5,22 +5,24 @@
                                                                                                    
           Author(s):    Navy Flank Speed MCS                                                                                                                                                 
                                                                                                        
-            Version:    1.0.2                                                                        
+            Version:    1.0.3                                                                        
                                                                                                   
             Created:    01.18.2023                                                                 
-           Modified:    09.20.2023                                                                  
+           Modified:    11.27.2023                                                                  
                                                                                                   
                                                                                                   
                                                                                                   
           Info:                                                                                   
                                                                                                   
           This script can determine the size of the user's profile and be used to perform a disk cleanup 
-          to free up space via CleanMgr.exe, as well as, cleaning of the following cache...
+          to free up space via CleanMgr.exe, as well as, backup of Microsoft Edge favorites to an html file.
+		  It will all perform the cleaning of the following caches...
 		  
 		    -  PowerBI
 			-  Teams
 			-  Outlook
 			-  OneDrive
+
           
 
           
@@ -33,6 +35,7 @@
 		  -OneDrive = Cleans Microsoft OneDrive cache
 		  -PowerBI = Cleans Microsoft PowerBI cache
 		  -Outlook = Cleans Microsoft Outlook cache
+		  -Edge = Backs up Edge Favorites to location of user's choosing
 		  
 		  
           
@@ -41,6 +44,7 @@
 
           .1 - Initial script
 		  .2 - Added relaunch of apps after cache cleaning
+		  .3 - Added Edge Favorites backup ability
                         
 
 #>
@@ -53,8 +57,9 @@ Param (
 	[Parameter(Mandatory=$false)] [switch]$MSTeams = $false,
 	[Parameter(Mandatory=$false)] [switch]$OneDrive = $false,
 	[Parameter(Mandatory=$false)] [switch]$PowerBI = $false,
-	[Parameter(Mandatory=$false)] [switch]$Outlook = $false
-	
+	[Parameter(Mandatory=$false)] [switch]$Outlook = $false,
+	[Parameter(Mandatory=$false)] [switch]$Edge = $false,
+	[Parameter(Mandatory=$false)] [switch]$Default = $false	
 )
 
 
@@ -186,37 +191,141 @@ If ($PowerBI -eq $true){
 	Start shell:appsFolder\"PowerBIDesktop_7zvfj5dg98bjr!PBIDESKTOP"
 
 }
-# SIG # Begin signature block
-# MIIF0wYJKoZIhvcNAQcCoIIFxDCCBcACAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
-# gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUf+/XtUmMMM4eA6BXzQbW2frD
-# p6WgggNMMIIDSDCCAjCgAwIBAgIQcXHqnYdQMbxAV5XYyArlADANBgkqhkiG9w0B
-# AQsFADA8MTowOAYDVQQDDDFOYXV0aWx1cyBWaXJ0dWFsIERlc2t0b3AgQ29kZSBT
-# aWduaW5nIENlcnRpZmljYXRlMB4XDTIzMDUyMjE4MjU1N1oXDTI0MDUyMjE4NDU1
-# N1owPDE6MDgGA1UEAwwxTmF1dGlsdXMgVmlydHVhbCBEZXNrdG9wIENvZGUgU2ln
-# bmluZyBDZXJ0aWZpY2F0ZTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEB
-# AKH0I9g2NPsiqgP2Gmi9ifMe9GRSQOTVj5nnp/zwb0AbzJF5qpIOX9IeIC0/gmUz
-# dj+WwkGL4lONzVKIPNTKPbBPDzRnBK9wJazJjSYDbRh4Yd3HbMCo7W2e5NMII0li
-# WkPDJioVHw8Zh7BdN+0i0yOLb3A6Jr62CP3wHOn/LIYcXK6HA6jS2WUHjGoBr2rW
-# lYAdumrrTtL1KbBYYjIjAdkrAgX/XU5dzVBosMkaWQXJTrdoJzAPe9erYItowKQS
-# 9iiCSlT6K0bbCpxt9EDg1GpLN7yqH4Ut/Q2ZMxr5rc21r80gqoCX7+gi49flOO5X
-# saf16boIv0CtPysQZWXPCZkCAwEAAaNGMEQwDgYDVR0PAQH/BAQDAgeAMBMGA1Ud
-# JQQMMAoGCCsGAQUFBwMDMB0GA1UdDgQWBBSXn4hbjGNiJmu5Zveef2+DUTM4VTAN
-# BgkqhkiG9w0BAQsFAAOCAQEAUrepMOc58NSqFtzV8o4cpxn9L0jjXpTdibg0zRtj
-# av5pIZgGtrH063rWHlstLluuF9OPIfAlVOK5cAIj21pOY4ecqVMaF/QslhZ2ahiL
-# N71kT9JpcOPMWewwfPfl6OBh+Dnofj4WdkdIF+Y05g19dMjF2og93w3cnjVFzH1Y
-# RSRK7R44EZ3QMISFOHvJSSv9xsf0jLItYNqxDFf9ySFMpOss/ZiZEsCoHhP4kMv0
-# EVgIwbTp8JQd0Q/ffohufLS1fiD7HhVBPMlhAHhnNbBFjUtxSFGifW/vqt8oNk2I
-# 9CySPYfoD5A0x0beVyDrVlNamgKhp/jk9FQZ5FJSPt00HTGCAfEwggHtAgEBMFAw
-# PDE6MDgGA1UEAwwxTmF1dGlsdXMgVmlydHVhbCBEZXNrdG9wIENvZGUgU2lnbmlu
-# ZyBDZXJ0aWZpY2F0ZQIQcXHqnYdQMbxAV5XYyArlADAJBgUrDgMCGgUAoHgwGAYK
-# KwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIB
-# BDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0BCQQxFgQU
-# omv0h1ETJ2bDuBbUkEMy0mrJVPcwDQYJKoZIhvcNAQEBBQAEggEAULf/jm9EvYOH
-# qa/Tg9XW7m16W0TypJSgLj8mpPfOOgghw/uZRzWBW1MyrIXzzuiYzcF+weZAoKWi
-# XfjKw48iCU3Ft0el6sH1QEMEQdinO2rZqZdHl2jzuYHXZIJCDx6WwVgoG8IncA39
-# lNIcLt7Rg0oKgkylucqrTJisPpZsWsINftkLquo3kBhIQxO7dl2xuXrl+4Gm6cLm
-# BAkG/c0Ifu8CGRyHjY9CcmA7dSErHN6qWeAoPJEpcmlW7ai+vX+LJBqS+IknpEBO
-# RDo3iORGUeiiHY7RfsCtkiWkRnwZVg7ZILBy5+pJr9YI9i8Obgw4ZDXXDZSp0RJG
-# gV0mnzhc7g==
-# SIG # End signature block
+
+
+
+#######################################
+# Backup Edge Favorites
+#######################################
+If ($Edge -eq $true){
+	#Variables
+	If ($Default -eq $true){
+		$HTML_File_Dir = "$env:OneDrive"
+	}Else{
+		Add-Type -AssemblyName 'System.Windows.Forms'
+		$foldername = New-Object System.Windows.Forms.FolderBrowserDialog
+		$foldername.rootfolder = "MyComputer"
+
+		If ($foldername.ShowDialog() -eq "OK"){
+			$HTML_File_Dir = $foldername.SelectedPath
+		}
+	}
+	#Path to bookmarks JSON file
+	$JSON_File_Path = "$($env:localappdata)\Microsoft\Edge\User Data\Default\Bookmarks"
+
+	#Path to exported HTML file
+	$ExportedTime = Get-Date -Format "MM-dd-yyyy"
+	$HTML_File_Path = "$($HTML_File_Dir)\EdgeFavorites-Bookmarks.backup_$($ExportedTime).html"
+
+
+#### Read Microsoft Edge (based on Chromium) Bookmarks (JSON File) and Export/Backup to HTML-File (Edge/Firefox/Chrome compatible Format)
+### Gunnar Haslinger,  works at least width Edge (based on Chromium) Beta 78 (tested on 30.10.2019) up to Edge Stable v98 (tested on 09.02.2022)
+### Contributions by: SCCMOG - Richie Schuster, https://github.com/SCCMOG - SCCMOG.com
+### Latest Version and a list of all contributors, see: https://github.com/gunnarhaslinger/Microsoft-Edge-based-on-Chromium-Scripts
+
+### Definitions
+$EdgeStable="Edge"
+$EdgeBeta="Edge Beta"
+$EdgeDev="Edge Dev"
+$ExportedTime = Get-Date -Format 'yyyy-MM-dd_HH-mm-ss'
+
+### Choose the Edge Release ($EdgeStable, $EdgeBeta, $EdgeDev) you like to Backup:
+$EdgeRelease=$EdgeStable
+
+### Path to Edge Bookmarks Source-File
+$JSON_File_Path = "$($env:localappdata)\Microsoft\$($EdgeRelease)\User Data\Default\Bookmarks"
+
+
+### Filename of HTML-Export (Backup-Filename), choose with YYYY-MM-DD_HH-MM-SS Date-Suffix or fixed Filename
+#$HTML_File_Path = "$($HTML_File_Dir)\EdgeChromium-Bookmarks.backup.html"
+$HTML_File_Path = "$($HTML_File_Dir)\EdgeChromium-Bookmarks.backup_$($ExportedTime).html"
+
+## Reference-Timestamp needed to convert Timestamps of JSON (Milliseconds / Ticks since LDAP / NT epoch 01.01.1601 00:00:00 UTC) to Unix-Timestamp (Epoch)
+$Date_LDAP_NT_EPOCH = Get-Date -Year 1601 -Month 1 -Day 1 -Hour 0 -Minute 0 -Second 0
+
+if (!(Test-Path -Path $JSON_File_Path -PathType Leaf)) {
+    throw "Source-File Path $JSON_File_Path does not exist!" 
+}
+if (!(Test-Path -Path $HTML_File_Dir -PathType Container)) { 
+    throw "Destination-Directory Path $HTML_File_Dir does not exist!" 
+}
+
+# ---- HTML Header ----
+$BookmarksHTML_Header = @'
+<!DOCTYPE NETSCAPE-Bookmark-file-1>
+<!-- This is an automatically generated file.
+     It will be read and overwritten.
+     DO NOT EDIT! -->
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<TITLE>Bookmarks</TITLE>
+<H1>Bookmarks</H1>
+<DL><p>
+'@
+
+$BookmarksHTML_Header | Out-File -FilePath $HTML_File_Path -Force -Encoding utf8
+
+# ---- Enumerate Bookmarks Folders ----
+Function Get-BookmarkFolder {
+    [cmdletbinding()] 
+    Param( 
+        [Parameter(Position = 0, ValueFromPipeline = $True)]
+        $Node 
+    )
+    function ConvertTo-UnixTimeStamp {
+        param(
+            [Parameter(Position = 0, ValueFromPipeline = $True)]
+            $TimeStamp 
+        )
+        $date = [Decimal] $TimeStamp
+        if ($date -gt 0) { 
+            # Timestamp Conversion: JSON-File uses Timestamp-Format "Ticks-Offset since LDAP/NT-Epoch" (reference Timestamp, Epoch since 1601 see above), HTML-File uses Unix-Timestamp (Epoch, since 1970)																																																   
+            $date = $Date_LDAP_NT_EPOCH.AddTicks($date * 10) # Convert the JSON-Timestamp to a valid PowerShell date
+            # $DateAdded # Show Timestamp in Human-Readable-Format (Debugging-purposes only)																					
+            $date = $date | Get-Date -UFormat %s # Convert to Unix-Timestamp
+            $unixTimeStamp = [int][double]::Parse($date) - 1 # Cut off the Milliseconds
+            return $unixTimeStamp
+        }
+    }   
+    if ($node.name -like "Favorites Bar") {
+        $DateAdded = [Decimal] $node.date_added | ConvertTo-UnixTimeStamp
+        $DateModified = [Decimal] $node.date_modified | ConvertTo-UnixTimeStamp
+        "        <DT><H3 FOLDED ADD_DATE=`"$($DateAdded)`" LAST_MODIFIED=`"$($DateModified)`" PERSONAL_TOOLBAR_FOLDER=`"true`">$($node.name )</H3>" | Out-File -FilePath $HTML_File_Path -Append -Force -Encoding utf8
+        "        <DL><p>" | Out-File -FilePath $HTML_File_Path -Append -Force -Encoding utf8
+    }
+    foreach ($child in $node.children) {
+        $DateAdded = [Decimal] $child.date_added | ConvertTo-UnixTimeStamp    
+        $DateModified = [Decimal] $child.date_modified | ConvertTo-UnixTimeStamp
+        if ($child.type -eq 'folder') {
+            "        <DT><H3 ADD_DATE=`"$($DateAdded)`" LAST_MODIFIED=`"$($DateModified)`">$($child.name)</H3>" | Out-File -FilePath $HTML_File_Path -Append -Force -Encoding utf8
+            "        <DL><p>" | Out-File -FilePath $HTML_File_Path -Append -Force -Encoding utf8
+            Get-BookmarkFolder $child # Recursive call in case of Folders / SubFolders
+            "        </DL><p>" | Out-File -FilePath $HTML_File_Path -Append -Force -Encoding utf8
+        }
+        else {
+            # Type not Folder => URL
+            "        <DT><A HREF=`"$($child.url)`" ADD_DATE=`"$($DateAdded)`">$($child.name)</A>" | Out-File -FilePath $HTML_File_Path -Append -Encoding utf8
+        }
+    }
+    if ($node.name -like "Favorites Bar") {
+        "        </DL><p>" | Out-File -FilePath $HTML_File_Path -Append -Force -Encoding utf8
+    }
+}
+
+# ---- Convert the JSON Contens (recursive) ----
+$data = Get-content $JSON_File_Path -Encoding UTF8 | out-string | ConvertFrom-Json
+$sections = $data.roots.PSObject.Properties | Select-Object -ExpandProperty name
+ForEach ($entry in $sections) { 
+    $data.roots.$entry | Get-BookmarkFolder
+}
+
+# ---- HTML Footer ----
+'</DL>' | Out-File -FilePath $HTML_File_Path -Append -Force -Encoding utf8
+
+
+}
+
+
+
+
+
+
