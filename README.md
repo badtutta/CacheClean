@@ -1,8 +1,3 @@
-**TO USE**
-Put shortcuts of choice into launch folder and make sure CacheClean.ps1 file is in the SAME folder
-
-
-
 <#
 
 
@@ -10,10 +5,10 @@ Put shortcuts of choice into launch folder and make sure CacheClean.ps1 file is 
                                                                                                    
           Author(s):    Navy Flank Speed MCS                                                                                                                                                 
                                                                                                        
-            Version:    1.0.3                                                                        
+            Version:    1.0.4                                                                        
                                                                                                   
             Created:    01.18.2023                                                                 
-           Modified:    11.27.2023                                                                  
+           Modified:    12.21.2023                                                                  
                                                                                                   
                                                                                                   
                                                                                                   
@@ -50,6 +45,7 @@ Put shortcuts of choice into launch folder and make sure CacheClean.ps1 file is 
           .1 - Initial script
 		  .2 - Added relaunch of apps after cache cleaning
 		  .3 - Added Edge Favorites backup ability
+		  .4 - Added support for new Teams version
                         
 
 #>
