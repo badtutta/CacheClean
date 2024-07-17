@@ -126,7 +126,7 @@ If ($MSTeams -eq $true){
 		If ($processName -eq "teams"){
 			Remove-Item -Path $env:APPDATA\"Microsoft\Teams" -ErrorAction SilentlyContinue -Recurse -Force
 		}elseif($processName -eq "ms-teams"){
-			Remove-Item -Path $env:APPDATA\"Packages\MSTeams_8wekyb3d8bbwe" -ErrorAction SilentlyContinue -Recurse -Force
+			Remove-Item -Path $env:APPDATA\"Packages\MSTeams_8wekyb3d8bbwe\LocalCache\Microsoft\MSTeams" -ErrorAction SilentlyContinue -Recurse -Force
 		}
 	}
 	catch{
