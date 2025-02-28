@@ -16,19 +16,20 @@
                                                                                                   
           This script can determine the size of the user's profile and be used to perform a disk cleanup 
           to free up space via CleanMgr.exe, as well as, backup of Microsoft Edge favorites to an html file.
-		  It will all perform the cleaning of the following caches...
+	  It will all perform the cleaning of the following caches...
 		  
-		    -  PowerBI
+		        -  PowerBI
 			-  Teams
 			-  Outlook
 			-  OneDrive
 
+	  It will also back up favorites from the Edge browser
           
 
           
           Parameters:
     
-          -ProfileSize = Determines disk space used by the user's profile
+          	  -ProfileSize = Determines disk space used by the user's profile
 		  -Clean = Cleans with default options
 		  -Options = Opens GUI and allows selection of more options to clean
 		  -MSTeams = Cleans Microsoft Teams cache
@@ -42,7 +43,7 @@
 
           Version Log:
 
-          .1 - Initial script
+          	  .1 - Initial script
 		  .2 - Added relaunch of apps after cache cleaning
 		  .3 - Added Edge Favorites backup ability
 		  .4 - Added support for new Teams version
